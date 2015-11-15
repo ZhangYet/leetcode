@@ -47,6 +47,6 @@ def test():
     left2.left = left3
     t = Codec()
     res = t.serialize(root)
-    print type(t.serialize(root))
-    print eval(res)
+
+    
 test()
