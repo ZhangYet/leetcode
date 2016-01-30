@@ -24,7 +24,7 @@ class Solution(object):
         
         for i in xrange(0, row_len):
             for j in xrange(0, col_len):
-                res = max(res, self.dfs(dis, row_len, col_len, x, y, matrix))
+                res = max(res, self.dfs(dis, row_len, col_len, i, j, matrix))
                 
         return res
         
@@ -37,7 +37,7 @@ class Solution(object):
             newY = y + Solution.dy[i]
 
             if newX>=0 and newY>=0 and newX<row_len and newY<col_len and matrix[x][y]<matrix[newX][newY]:
-                dis[x][y] = max(dis[x][y], dfx(dis, row_len, col_len, x, y, matrix))
+                dis[x][y] = max(dis[x][y], self.dfs(dis, row_len, col_len, newX, newY, matrix))
                 
         dis[x][y] += 1
         return dis[x][y]
