@@ -1,7 +1,4 @@
 class Solution(object):
-    def __init__(self):
-        self.table = None
-        self.init_len = 0
     
     def minPatches(self, nums, n):
         """
@@ -10,28 +7,32 @@ class Solution(object):
         :rtype: int
         """
         self.init_len = len(nums)
-        self.table = [0 for x in xrange(0, n)]
         self.nums = nums
-        
+        init_sum = sum(nums)
+        res = []
+        temp = n - init_sum
+
+        while temp > 0:
+            res.append(temp)
+            temp -= init_sum
+        self.refresh(init_sum)
+
+        return len(res) + len(self.nums) - self.init_len
+            
+    def refresh(self, n):
+        table = [0 for x in xrange(0, n)]
         for x in self.nums:
             for i in xrange(0, n):
-                if self.table[i] > 0 and self.table[i]+x-1<n:
-                    self.table[self.table[i]+x-1] = self.table[i] + x
-            self.table[x-1] = x
-
-        for i in xrange(1, n+1):
-            if i not in self.table:
-                self.refresh(i, n)
-        return len(self.nums) - self.init_len
-            
-    def refresh(self, i, n):
-        self.nums.append(i)
-
-        for j in xrange(0, n):
-            if self.table[j] > 0 and self.table[j]+i-1<n:
-                self.table[self.table[j]+i-1] = self.table[j] + i
-        self.table[i-1] = i
-        
+                if table[i]>0 and table[i]+x-1<n:
+                    table[table[i]+x-1] = table[i] + x
+                    
+        for i in range(0, n):
+            if i not in table:
+                self.nums.append(i)
+                for j in range(0, n):
+                    if table[j]>0 and table[j]+i-1<n:
+                        table[table[j]+i-1] = table[j] + i
+                table[i-1] = i
         
 def test():
     nums = [1, 5, 10]
